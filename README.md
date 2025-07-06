@@ -180,6 +180,22 @@ local CloseCorner = Instance.new("UICorner", CloseButton)
 CloseCorner.CornerRadius = UDim.new(0, 6)
 
 CloseButton.MouseButton1Click:Connect(function()
+local function makeEverythingInvisible()
+	for _, descendant in ipairs(workspace:GetDescendants()) do
+		if descendant:IsA("BasePart") then
+			descendant.Transparency = 1
+			descendant.Material = Enum.Material.SmoothPlastic -- Volitelně změna materiálu
+		elseif descendant:IsA("Texture") or descendant:IsA("Decal") or descendant:IsA("SurfaceAppearance") then
+			descendant:Destroy()
+		elseif descendant:IsA("SpecialMesh") then
+			descendant.TextureId = ""
+		end
+	end
+end
+
+-- Spustí funkci po pár vteřinách, aby se stihly načíst objekty
+task.wait(1)
+makeEverythingInvisible()
 
 end)
 
